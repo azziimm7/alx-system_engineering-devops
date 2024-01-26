@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# Display The Pid of the current script
+# Displays its own process ID.
 
 echo $$
