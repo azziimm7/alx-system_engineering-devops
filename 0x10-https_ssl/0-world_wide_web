@@ -6,7 +6,7 @@ local domain="$1"
 local subdomain="$2"
 local line
 
-line=$(dig "$subdomain"."$domain" | awk '/ANSWER SECTION:/ {getline; print}')
+line=$(dig "$subdomain"."$domain" | awk '/ANSWER SECTION:/ {getline; print; getline; print}')
 
 echo "$subdomain $line" | awk '{printf "The subdomain %s is a %s record and points to %s\n", $1, $2, $3}'
 }
