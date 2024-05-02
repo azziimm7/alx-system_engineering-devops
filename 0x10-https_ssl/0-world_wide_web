@@ -1,22 +1,20 @@
-#!/usr/bin/env bash
-#Bash script that will display information about subdomains.
+p addresses of your subdomains
 
-domain_info() {
-local domain="$1"
-local subdomain="$2"
-local line
+subdomains=("www" "lb-01" "web-01" "web-02")
 
-line=$(dig "$subdomain"."$domain" | awk '/ANSWER SECTION:/ {getline; print; getline; print}')
-
-echo "$subdomain $line" | awk '{printf "The subdomain %s is a %s record and points to %s\n", $1, $2, $3}'
+print_domains() {
+	answer=$(dig +noall +answer "$2.$1")
+	record_type=$(echo "$answer" | awk '{print $4}')
+	ip=$(echo "$answer" | awk '{print $5}')
+	echo "The subdomain $2 is a $record_type record and points to $ip"
 }
 
-
-if [ "$#" -eq 1 ]; then
-    domain_info "$1" "www"
-    domain_info "$1" "lb-01"
-    domain_info "$1" "web-01"
-    domain_info "$1" "web-02"
-elif [ "$#" -eq 2 ]; then
-    domain_info "$1" "$2"
+if [ $# == 2 ]
+then
+	print_domains "$1" "$2"
+else
+	for sub_domain in "${subdomains[@]}"
+	do
+		print_domains "$1" "$sub_domain"
+	done
 fi
