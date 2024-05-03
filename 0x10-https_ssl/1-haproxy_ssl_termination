@@ -34,14 +34,14 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend clickviral-frontend
+frontend azza_frontend
         bind *:80
         mode http
         http-request redirect scheme https code 301 unless { ssl_fc }
         http-request set-header X_Forwarded-Proto http
         default_backend azza_backend
 
-frontend clickviral-frontend-https
+frontend azza_frontend-https
         bind *:443 ssl crt /etc/haproxy/certs/www.azziimm.tech.pem
         http-request set-header X-Forwarded-Proto https
         default_backend azza_backend
