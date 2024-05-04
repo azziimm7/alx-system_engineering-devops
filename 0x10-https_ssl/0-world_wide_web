@@ -19,3 +19,4 @@ else
 		print_domains "$1" "$sub_domain"
 	done
 fi
+
