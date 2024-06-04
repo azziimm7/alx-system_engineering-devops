@@ -1,25 +1,16 @@
 #!/usr/bin/python3
-""" A module taht uses Riddit API FOR Top 10 subscribers """
+"""A script to Print the title of the top 10 hot posts for a subreddit"""
+
 import requests
 
 
 def top_ten(subreddit):
-    """A gunction to get top 10 subscribers"""
-    req = requests.get(
-        f"https://www.reddit.com/r/{subreddit}/hot.json",
-        headers={},
-        params={"limit": 10},
-    )
-
-    if req.status_code == 200:
-        data = req.json().get("data")
-        if data and "children" in data:
-            for child in data["children"]:
-                if "data" in child and "title" in child["data"]:
-                    print(child["data"]["title"])
-                else:
-                    print("Invalid post format: ", child)
-        else:
-            print("No data returned from Reddit.")
+    """Print the title of the top 10 hot posts"""
+    headers = {'User-Agent': 'Chrome/124.0.0.0 Safari/537.36'}
+    url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=10'
+    r = requests.get(url, headers=headers, allow_redirects=False)
+    if (r.status_code == 200):
+        hot_list = r.json()['data']['children']
+        [print(post['data']['title']) for post in hot_list]
     else:
         print(None)
